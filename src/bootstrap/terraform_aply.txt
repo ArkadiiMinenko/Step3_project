@@ -1,0 +1,96 @@
+PS E:\DANIT\Step3_project\src\bootstrap> terraform apply
+
+Terraform used the selected providers to generate the following execution plan. Resource        
+actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_s3_bucket.tf_state will be created
+  + resource "aws_s3_bucket" "tf_state" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "jenkins-tfstate-arkadii"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = true
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "Name" = "jenkins-tfstate-arkadii"
+        }
+      + tags_all                    = {
+          + "Name" = "jenkins-tfstate-arkadii"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # aws_s3_bucket_public_access_block.block will be created
+  + resource "aws_s3_bucket_public_access_block" "block" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # aws_s3_bucket_versioning.versioning will be created
+  + resource "aws_s3_bucket_versioning" "versioning" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + s3_bucket_name = (known after apply)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_s3_bucket.tf_state: Creating...
+aws_s3_bucket.tf_state: Creation complete after 2s [id=jenkins-tfstate-arkadii]
+aws_s3_bucket_public_access_block.block: Creating...
+aws_s3_bucket_versioning.versioning: Creating...
+aws_s3_bucket_public_access_block.block: Creation complete after 1s [id=jenkins-tfstate-arkadii]
+aws_s3_bucket_versioning.versioning: Creation complete after 2s [id=jenkins-tfstate-arkadii]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+s3_bucket_name = "jenkins-tfstate-arkadii"

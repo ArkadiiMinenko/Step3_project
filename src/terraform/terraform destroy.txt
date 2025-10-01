@@ -1,0 +1,704 @@
+PS E:\DANIT\Step3_project\src\terraform> terraform destroy
+tls_private_key.jenkins: Refreshing state... [id=1a85f642119dca970ead472b4ce03bc98bdea2a2]
+local_file.private_key: Refreshing state... [id=97b6400db33539a189cf106083abf820bca83732]
+data.aws_ami.amazon_linux: Reading...
+aws_key_pair.jenkins_key: Refreshing state... [id=jenkins-key-arkadii]
+aws_vpc.main: Refreshing state... [id=vpc-05ee6ecdcd50ce7da]
+aws_eip.nat_eip: Refreshing state... [id=eipalloc-0106dd07bf6247815]
+data.aws_ami.amazon_linux: Read complete after 0s [id=ami-0b65d57be27e8f4e7]
+aws_route_table.private: Refreshing state... [id=rtb-0924ce5f3e6fe4457]
+aws_route_table.public: Refreshing state... [id=rtb-08daf7fd313689953]
+aws_internet_gateway.igw: Refreshing state... [id=igw-07bfa20a6ae682eed]
+aws_subnet.public: Refreshing state... [id=subnet-0a4b3d210dc0c99fc]
+aws_subnet.private: Refreshing state... [id=subnet-03f6773107e7586b6]
+aws_security_group.jenkins_sg: Refreshing state... [id=sg-0ea9af2a7c2f30c71]
+aws_route.public_internet_access: Refreshing state... [id=r-rtb-08daf7fd3136899531080289494]
+aws_security_group_rule.allow_ssh_internal: Refreshing state... [id=sgrule-1437078515]
+aws_route_table_association.public_assoc: Refreshing state... [id=rtbassoc-00434d2aae6e329c1]
+aws_nat_gateway.nat: Refreshing state... [id=nat-0a99ee037265209f4]
+aws_instance.jenkins_master: Refreshing state... [id=i-0cc4d6e89a53b07a3]
+aws_route_table_association.private_assoc: Refreshing state... [id=rtbassoc-02d059bf88fa1b2aa]
+aws_instance.jenkins_worker: Refreshing state... [id=i-0e3952e7672581bf7]
+aws_route.private_nat_access: Refreshing state... [id=r-rtb-0924ce5f3e6fe44571080289494]
+null_resource.generate_inventory: Refreshing state... [id=1614771428701799927]
+local_file.inventory_worker: Refreshing state... [id=8bc6f957034ad183c6fd3a08ef8b20cdc15e4e3c]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_eip.nat_eip will be destroyed
+  - resource "aws_eip" "nat_eip" {
+      - allocation_id            = "eipalloc-0106dd07bf6247815" -> null
+      - arn                      = "arn:aws:ec2:eu-central-1:708426825474:elastic-ip/eipalloc-0106dd07bf6247815" -> null
+      - association_id           = "eipassoc-0ee89c90414656e50" -> null
+      - domain                   = "vpc" -> null
+      - id                       = "eipalloc-0106dd07bf6247815" -> null
+      - network_border_group     = "eu-central-1" -> null
+      - network_interface        = "eni-00eec74c2c3ade30c" -> null
+      - private_dns              = "ip-10-0-1-66.eu-central-1.compute.internal" -> null
+      - private_ip               = "10.0.1.66" -> null
+      - public_dns               = "ec2-3-77-169-198.eu-central-1.compute.amazonaws.com" -> null
+      - public_ip                = "3.77.169.198" -> null
+      - public_ipv4_pool         = "amazon" -> null
+      - tags                     = {} -> null
+      - tags_all                 = {} -> null
+      - vpc                      = true -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_instance.jenkins_master will be destroyed
+  - resource "aws_instance" "jenkins_master" {
+      - ami                                  = "ami-0b65d57be27e8f4e7" -> null
+      - arn                                  = "arn:aws:ec2:eu-central-1:708426825474:instance/i-0cc4d6e89a53b07a3" -> null
+      - associate_public_ip_address          = true -> null
+      - availability_zone                    = "eu-central-1a" -> null
+      - cpu_core_count                       = 1 -> null
+      - cpu_threads_per_core                 = 1 -> null
+      - disable_api_stop                     = false -> null
+      - disable_api_termination              = false -> null
+      - ebs_optimized                        = false -> null
+      - get_password_data                    = false -> null
+      - hibernation                          = false -> null
+      - id                                   = "i-0cc4d6e89a53b07a3" -> null
+      - instance_initiated_shutdown_behavior = "stop" -> null
+      - instance_state                       = "running" -> null
+      - instance_type                        = "t2.micro" -> null
+      - ipv6_address_count                   = 0 -> null
+      - ipv6_addresses                       = [] -> null
+      - key_name                             = "jenkins-key-arkadii" -> null
+      - monitoring                           = false -> null
+      - placement_partition_number           = 0 -> null
+      - primary_network_interface_id         = "eni-0793339cb0380331b" -> null
+      - private_dns                          = "ip-10-0-1-222.eu-central-1.compute.internal" -> null
+      - private_ip                           = "10.0.1.222" -> null
+      - public_ip                            = "18.194.176.30" -> null
+      - secondary_private_ips                = [] -> null
+      - security_groups                      = [] -> null
+      - source_dest_check                    = true -> null
+      - subnet_id                            = "subnet-0a4b3d210dc0c99fc" -> null
+      - tags                                 = {
+          - "Name" = "jenkins-master-arkadii"
+        } -> null
+      - tags_all                             = {
+          - "Name" = "jenkins-master-arkadii"
+        } -> null
+      - tenancy                              = "default" -> null
+      - user_data_replace_on_change          = false -> null
+      - vpc_security_group_ids               = [
+          - "sg-0ea9af2a7c2f30c71",
+        ] -> null
+        # (8 unchanged attributes hidden)
+
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      - cpu_options {
+          - core_count       = 1 -> null
+          - threads_per_core = 1 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      - maintenance_options {
+          - auto_recovery = "default" -> null
+        }
+
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null
+          - http_protocol_ipv6          = "disabled" -> null
+          - http_put_response_hop_limit = 1 -> null
+          - http_tokens                 = "optional" -> null
+          - instance_metadata_tags      = "disabled" -> null
+        }
+
+      - private_dns_name_options {
+          - enable_resource_name_dns_a_record    = false -> null
+          - enable_resource_name_dns_aaaa_record = false -> null
+          - hostname_type                        = "ip-name" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = true -> null
+          - device_name           = "/dev/xvda" -> null
+          - encrypted             = false -> null
+          - iops                  = 100 -> null
+          - tags                  = {} -> null
+          - tags_all              = {} -> null
+          - throughput            = 0 -> null
+          - volume_id             = "vol-0e76d73947000c2fb" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp2" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_instance.jenkins_worker will be destroyed
+  - resource "aws_instance" "jenkins_worker" {
+      - ami                                  = "ami-0b65d57be27e8f4e7" -> null
+      - arn                                  = "arn:aws:ec2:eu-central-1:708426825474:instance/i-0e3952e7672581bf7" -> null
+      - associate_public_ip_address          = false -> null
+      - availability_zone                    = "eu-central-1a" -> null
+      - cpu_core_count                       = 1 -> null
+      - cpu_threads_per_core                 = 1 -> null
+      - disable_api_stop                     = false -> null
+      - disable_api_termination              = false -> null
+      - ebs_optimized                        = false -> null
+      - get_password_data                    = false -> null
+      - hibernation                          = false -> null
+      - id                                   = "i-0e3952e7672581bf7" -> null
+      - instance_initiated_shutdown_behavior = "terminate" -> null
+      - instance_lifecycle                   = "spot" -> null
+      - instance_state                       = "running" -> null
+      - instance_type                        = "t2.micro" -> null
+      - ipv6_address_count                   = 0 -> null
+      - ipv6_addresses                       = [] -> null
+      - key_name                             = "jenkins-key-arkadii" -> null
+      - monitoring                           = false -> null
+      - placement_partition_number           = 0 -> null
+      - primary_network_interface_id         = "eni-0799dc18b046a2db5" -> null
+      - private_dns                          = "ip-10-0-2-223.eu-central-1.compute.internal" -> null
+      - private_ip                           = "10.0.2.223" -> null
+      - secondary_private_ips                = [] -> null
+      - security_groups                      = [] -> null
+      - source_dest_check                    = true -> null
+      - spot_instance_request_id             = "sir-szez1e8p" -> null
+      - subnet_id                            = "subnet-03f6773107e7586b6" -> null
+      - tags                                 = {
+          - "Name" = "jenkins-worker-arkadii"
+        } -> null
+      - tags_all                             = {
+          - "Name" = "jenkins-worker-arkadii"
+        } -> null
+      - tenancy                              = "default" -> null
+      - user_data_replace_on_change          = false -> null
+      - vpc_security_group_ids               = [
+          - "sg-0ea9af2a7c2f30c71",
+        ] -> null
+        # (7 unchanged attributes hidden)
+
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      - cpu_options {
+          - core_count       = 1 -> null
+          - threads_per_core = 1 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      - instance_market_options {
+          - market_type = "spot" -> null
+
+          - spot_options {
+              - instance_interruption_behavior = "terminate" -> null
+              - max_price                      = "0.013400" -> null
+              - spot_instance_type             = "one-time" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+      - maintenance_options {
+          - auto_recovery = "default" -> null
+        }
+
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null
+          - http_protocol_ipv6          = "disabled" -> null
+          - http_put_response_hop_limit = 1 -> null
+          - http_tokens                 = "optional" -> null
+          - instance_metadata_tags      = "disabled" -> null
+        }
+
+      - private_dns_name_options {
+          - enable_resource_name_dns_a_record    = false -> null
+          - enable_resource_name_dns_aaaa_record = false -> null
+          - hostname_type                        = "ip-name" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = true -> null
+          - device_name           = "/dev/xvda" -> null
+          - encrypted             = false -> null
+          - iops                  = 100 -> null
+          - tags                  = {} -> null
+          - tags_all              = {} -> null
+          - throughput            = 0 -> null
+          - volume_id             = "vol-014d852a351fa366d" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp2" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_internet_gateway.igw will be destroyed
+  - resource "aws_internet_gateway" "igw" {
+      - arn      = "arn:aws:ec2:eu-central-1:708426825474:internet-gateway/igw-07bfa20a6ae682eed" -> null
+      - id       = "igw-07bfa20a6ae682eed" -> null
+      - owner_id = "708426825474" -> null
+      - tags     = {
+          - "Name" = "igw-arkadii"
+        } -> null
+      - tags_all = {
+          - "Name" = "igw-arkadii"
+        } -> null
+      - vpc_id   = "vpc-05ee6ecdcd50ce7da" -> null
+    }
+
+  # aws_key_pair.jenkins_key will be destroyed
+  - resource "aws_key_pair" "jenkins_key" {
+      - arn             = "arn:aws:ec2:eu-central-1:708426825474:key-pair/jenkins-key-arkadii" -> null
+      - fingerprint     = "43:1d:1d:92:71:34:5d:63:c2:e8:89:99:99:5c:81:33" -> null
+      - id              = "jenkins-key-arkadii" -> null
+      - key_name        = "jenkins-key-arkadii" -> null
+      - key_pair_id     = "key-06b3837b4eb6e08b3" -> null
+      - key_type        = "rsa" -> null
+      - public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2yMrLPXDOdowP52vUSSIQDcupFB6YHk+fCRkEjvbebMYJV3Dq5uJ5UsWkGD6oAowjlYoTBWkjcDggvslk2m20l0jsH7oIvt3qrd984PrN/lmAgVrCYVTqu872MkqrCTdePua30Ls+qxiqPOWCbWi/tIKVuL6YAvT6qUGrh6/y0Jhwegpr/Ys6+IFD7VU7IR/p63zXQGEiAFGLyPcwu3a3Y6Ye9jLMpnDQmTybGNB0vItXN9cstBL4q75K0+fgn2xud/7x/XBf6VBykaD8stj7AU/oCXvQsCkVzpss4uQ76j1Wt5ahznnGfZPKYywqwBRJeVaHkaEf46ocJjyn4uR1" -> null        
+      - tags            = {} -> null
+      - tags_all        = {} -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_nat_gateway.nat will be destroyed
+  - resource "aws_nat_gateway" "nat" {
+      - allocation_id                      = "eipalloc-0106dd07bf6247815" -> null
+      - association_id                     = "eipassoc-0ee89c90414656e50" -> null
+      - connectivity_type                  = "public" -> null
+      - id                                 = "nat-0a99ee037265209f4" -> null
+      - network_interface_id               = "eni-00eec74c2c3ade30c" -> null
+      - private_ip                         = "10.0.1.66" -> null
+      - public_ip                          = "3.77.169.198" -> null
+      - secondary_allocation_ids           = [] -> null
+      - secondary_private_ip_address_count = 0 -> null
+      - secondary_private_ip_addresses     = [] -> null
+      - subnet_id                          = "subnet-0a4b3d210dc0c99fc" -> null
+      - tags                               = {
+          - "Name" = "nat-gateway-arkadii"
+        } -> null
+      - tags_all                           = {
+          - "Name" = "nat-gateway-arkadii"
+        } -> null
+    }
+
+  # aws_route.private_nat_access will be destroyed
+  - resource "aws_route" "private_nat_access" {
+      - destination_cidr_block      = "0.0.0.0/0" -> null
+      - id                          = "r-rtb-0924ce5f3e6fe44571080289494" -> null
+      - nat_gateway_id              = "nat-0a99ee037265209f4" -> null
+      - origin                      = "CreateRoute" -> null
+      - route_table_id              = "rtb-0924ce5f3e6fe4457" -> null
+      - state                       = "active" -> null
+        # (13 unchanged attributes hidden)
+    }
+
+  # aws_route.public_internet_access will be destroyed
+  - resource "aws_route" "public_internet_access" {
+      - destination_cidr_block      = "0.0.0.0/0" -> null
+      - gateway_id                  = "igw-07bfa20a6ae682eed" -> null
+      - id                          = "r-rtb-08daf7fd3136899531080289494" -> null
+      - origin                      = "CreateRoute" -> null
+      - route_table_id              = "rtb-08daf7fd313689953" -> null
+      - state                       = "active" -> null
+        # (13 unchanged attributes hidden)
+    }
+
+  # aws_route_table.private will be destroyed
+  - resource "aws_route_table" "private" {
+      - arn              = "arn:aws:ec2:eu-central-1:708426825474:route-table/rtb-0924ce5f3e6fe4457" -> null
+      - id               = "rtb-0924ce5f3e6fe4457" -> null
+      - owner_id         = "708426825474" -> null
+      - propagating_vgws = [] -> null
+      - route            = [
+          - {
+              - cidr_block                 = "0.0.0.0/0"
+              - nat_gateway_id             = "nat-0a99ee037265209f4"
+                # (11 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {
+          - "Name" = "private-rt-arkadii"
+        } -> null
+      - tags_all         = {
+          - "Name" = "private-rt-arkadii"
+        } -> null
+      - vpc_id           = "vpc-05ee6ecdcd50ce7da" -> null
+    }
+
+  # aws_route_table.public will be destroyed
+  - resource "aws_route_table" "public" {
+      - arn              = "arn:aws:ec2:eu-central-1:708426825474:route-table/rtb-08daf7fd313689953" -> null
+      - id               = "rtb-08daf7fd313689953" -> null
+      - owner_id         = "708426825474" -> null
+      - propagating_vgws = [] -> null
+      - route            = [
+          - {
+              - cidr_block                 = "0.0.0.0/0"
+              - gateway_id                 = "igw-07bfa20a6ae682eed"
+                # (11 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {
+          - "Name" = "public-rt-arkadii"
+        } -> null
+      - tags_all         = {
+          - "Name" = "public-rt-arkadii"
+        } -> null
+      - vpc_id           = "vpc-05ee6ecdcd50ce7da" -> null
+    }
+
+  # aws_route_table_association.private_assoc will be destroyed
+  - resource "aws_route_table_association" "private_assoc" {
+      - id             = "rtbassoc-02d059bf88fa1b2aa" -> null
+      - route_table_id = "rtb-0924ce5f3e6fe4457" -> null
+      - subnet_id      = "subnet-03f6773107e7586b6" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route_table_association.public_assoc will be destroyed
+  - resource "aws_route_table_association" "public_assoc" {
+      - id             = "rtbassoc-00434d2aae6e329c1" -> null
+      - route_table_id = "rtb-08daf7fd313689953" -> null
+      - subnet_id      = "subnet-0a4b3d210dc0c99fc" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_security_group.jenkins_sg will be destroyed
+  - resource "aws_security_group" "jenkins_sg" {
+      - arn                    = "arn:aws:ec2:eu-central-1:708426825474:security-group/sg-0ea9af2a7c2f30c71" -> null
+      - description            = "Allow SSH, HTTP and Jenkins (8080)" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - from_port        = 0
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - id                     = "sg-0ea9af2a7c2f30c71" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = "HTTP"
+              - from_port        = 80
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 80
+            },
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = "Jenkins HTTP"
+              - from_port        = 8080
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 8080
+            },
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = "SSH"
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 22
+            },
+          - {
+              - cidr_blocks      = []
+              - description      = "Allow SSH between Jenkins master and worker"
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = true
+              - to_port          = 22
+            },
+        ] -> null
+      - name                   = "jenkins-sg-arkadii" -> null
+      - owner_id               = "708426825474" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {
+          - "Name" = "jenkins-sg-arkadii"
+        } -> null
+      - tags_all               = {
+          - "Name" = "jenkins-sg-arkadii"
+        } -> null
+      - vpc_id                 = "vpc-05ee6ecdcd50ce7da" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_security_group_rule.allow_ssh_internal will be destroyed
+  - resource "aws_security_group_rule" "allow_ssh_internal" {
+      - description              = "Allow SSH between Jenkins master and worker" -> null
+      - from_port                = 22 -> null
+      - id                       = "sgrule-1437078515" -> null
+      - protocol                 = "tcp" -> null
+      - security_group_id        = "sg-0ea9af2a7c2f30c71" -> null
+      - security_group_rule_id   = "sgr-0acf1895929f919a5" -> null
+      - self                     = false -> null
+      - source_security_group_id = "sg-0ea9af2a7c2f30c71" -> null
+      - to_port                  = 22 -> null
+      - type                     = "ingress" -> null
+    }
+
+  # aws_subnet.private will be destroyed
+  - resource "aws_subnet" "private" {
+      - arn                                            = "arn:aws:ec2:eu-central-1:708426825474:subnet/subnet-03f6773107e7586b6" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-central-1a" -> null
+      - availability_zone_id                           = "euc1-az2" -> null
+      - cidr_block                                     = "10.0.2.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-03f6773107e7586b6" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "708426825474" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - tags                                           = {
+          - "Name" = "private-subnet-arkadii"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "private-subnet-arkadii"
+        } -> null
+      - vpc_id                                         = "vpc-05ee6ecdcd50ce7da" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_subnet.public will be destroyed
+  - resource "aws_subnet" "public" {
+      - arn                                            = "arn:aws:ec2:eu-central-1:708426825474:subnet/subnet-0a4b3d210dc0c99fc" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-central-1a" -> null
+      - availability_zone_id                           = "euc1-az2" -> null
+      - cidr_block                                     = "10.0.1.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-0a4b3d210dc0c99fc" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "708426825474" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - tags                                           = {
+          - "Name" = "public-subnet-arkadii"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "public-subnet-arkadii"
+        } -> null
+      - vpc_id                                         = "vpc-05ee6ecdcd50ce7da" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_vpc.main will be destroyed
+  - resource "aws_vpc" "main" {
+      - arn                                  = "arn:aws:ec2:eu-central-1:708426825474:vpc/vpc-05ee6ecdcd50ce7da" -> null
+      - assign_generated_ipv6_cidr_block     = false -> null
+      - cidr_block                           = "10.0.0.0/16" -> null
+      - default_network_acl_id               = "acl-0115947634ffd68ac" -> null
+      - default_route_table_id               = "rtb-03ecec2681f6ab571" -> null
+      - default_security_group_id            = "sg-0f3cb00c498622afb" -> null
+      - dhcp_options_id                      = "dopt-03c76c60a5df1cacd" -> null
+      - enable_dns_hostnames                 = false -> null
+      - enable_dns_support                   = true -> null
+      - enable_network_address_usage_metrics = false -> null
+      - id                                   = "vpc-05ee6ecdcd50ce7da" -> null
+      - instance_tenancy                     = "default" -> null
+      - ipv6_netmask_length                  = 0 -> null
+      - main_route_table_id                  = "rtb-03ecec2681f6ab571" -> null
+      - owner_id                             = "708426825474" -> null
+      - tags                                 = {
+          - "Name" = "vpc-arkadii"
+        } -> null
+      - tags_all                             = {
+          - "Name" = "vpc-arkadii"
+        } -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # local_file.inventory_worker will be destroyed
+  - resource "local_file" "inventory_worker" {
+      - content              = <<-EOT
+            [jenkins_worker]
+            10.0.2.223 ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/jenkins-key-arkadii.pem
+        EOT -> null
+      - content_base64sha256 = "BsOTlY+h/E5bDr6UbHln9/YQ+B1qqgewaT/lfHY0wj4=" -> null
+      - content_base64sha512 = "U9609xcty5LZFesV1FQRkG09A5eejbgcnDAamnUkIkWfYDVLRsit2agieg/I8zrmT6Max89eeIBpMZ24PTNSwQ==" -> null
+      - content_md5          = "65ba0832a7681f5baa3fac3fe90dea2b" -> null
+      - content_sha1         = "8bc6f957034ad183c6fd3a08ef8b20cdc15e4e3c" -> null
+      - content_sha256       = "06c393958fa1fc4e5b0ebe946c7967f7f610f81d6aaa07b0693fe57c7634c23e" -> null
+      - content_sha512       = "53deb4f7172dcb92d915eb15d45411906d3d03979e8db81c9c301a9a752422459f60354b46c8add9a8227a0fc8f33ae64fa31ac7cf5e788069319db83d3352c1" -> null
+      - directory_permission = "0777" -> null
+      - file_permission      = "0777" -> null
+      - filename             = "./../ansible/files/inventory_worker.ini" -> null
+      - id                   = "8bc6f957034ad183c6fd3a08ef8b20cdc15e4e3c" -> null
+    }
+
+  # local_file.private_key will be destroyed
+  - resource "local_file" "private_key" {
+      - content              = (sensitive value) -> null
+      - content_base64sha256 = "umGQwV2ILwGNAcuFTCbf+y89JWnVrXobomFPlPcknyY=" -> null
+      - content_base64sha512 = "8ria5PGF4J7cn0OjML22H9kegA/E8F+2TjKpdDWI6q+QvqqVnyQEHHuPMs4ykiylxqH/bC8lMTIpG/8i5LFoKg==" -> null
+      - content_md5          = "d26d6fd4553d6152508fec6085471971" -> null
+      - content_sha1         = "97b6400db33539a189cf106083abf820bca83732" -> null
+      - content_sha256       = "ba6190c15d882f018d01cb854c26dffb2f3d2569d5ad7a1ba2614f94f7249f26" -> null
+      - content_sha512       = "f2b89ae4f185e09edc9f43a330bdb61fd91e800fc4f05fb64e32a9743588eaaf90beaa959f24041c7b8f32ce32922ca5c6a1ff6c2f253132291bff22e4b1682a" -> null
+      - directory_permission = "0700" -> null
+      - file_permission      = "0600" -> null
+      - filename             = "./../ansible/files/jenkins-key-arkadii.pem" -> null
+      - id                   = "97b6400db33539a189cf106083abf820bca83732" -> null
+    }
+
+  # null_resource.generate_inventory will be destroyed
+  - resource "null_resource" "generate_inventory" {
+      - id = "1614771428701799927" -> null
+    }
+
+  # tls_private_key.jenkins will be destroyed
+  - resource "tls_private_key" "jenkins" {
+      - algorithm                     = "RSA" -> null
+      - ecdsa_curve                   = "P224" -> null
+      - id                            = "1a85f642119dca970ead472b4ce03bc98bdea2a2" -> null
+      - private_key_openssh           = (sensitive value) -> null
+      - private_key_pem               = (sensitive value) -> null
+      - private_key_pem_pkcs8         = (sensitive value) -> null
+      - public_key_fingerprint_md5    = "6c:f2:76:f8:eb:dc:ac:27:11:f3:a3:c6:d0:17:b5:99" -> null
+      - public_key_fingerprint_sha256 = "SHA256:5/wD9FaXQi9+lxu9VpO78pANIz3fmIvmcoi40Q+ASbI" -> null
+      - public_key_openssh            = <<-EOT
+            ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2yMrLPXDOdowP52vUSSIQDcupFB6YHk+fCRkEjvbebMYJV3Dq5uJ5UsWkGD6oAowjlYoTBWkjcDggvslk2m20l0jsH7oIvt3qrd984PrN/lmAgVrCYVTqu872MkqrCTdePua30Ls+qxiqPOWCbWi/tIKVuL6YAvT6qUGrh6/y0Jhwegpr/Ys6+IFD7VU7IR/p63zXQGEiAFGLyPcwu3a3Y6Ye9jLMpnDQmTybGNB0vItXN9cstBL4q75K0+fgn2xud/7x/XBf6VBykaD8stj7AU/oCXvQsCkVzpss4uQ76j1Wt5ahznnGfZPKYywqwBRJeVaHkaEf46ocJjyn4uR1
+        EOT -> null
+      - public_key_pem                = <<-EOT
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtsjKyz1wznaMD+dr1Eki
+            EA3LqRQemB5PnwkZBI723mzGCVdw6ubieVLFpBg+qAKMI5WKEwVpI3A4IL7JZNpt
+            tJdI7B+6CL7d6q3ffOD6zf5ZgIFawmFU6rvO9jJKqwk3Xj7mt9C7PqsYqjzlgm1o
+            v7SClbi+mAL0+qlBq4ev8tCYcHoKa/2LOviBQ+1VOyEf6et810BhIgBRi8j3MLt2
+            t2OmHvYyzKZw0Jk8mxjQdLyLVzfXLLQS+Ku+StPn4J9sbnf+8f1wX+lQcpGg/LLY
+            +wFP6Al70LApFc6bLOLkO+o9VreWoc55xn2TymMsKsAUSXlWh5GhH+OqHCY8p+Lk
+            dQIDAQAB
+            -----END PUBLIC KEY-----
+        EOT -> null
+      - rsa_bits                      = 2048 -> null
+    }
+
+Plan: 0 to add, 0 to change, 21 to destroy.
+
+Changes to Outputs:
+  - internet_gateway_id       = "igw-07bfa20a6ae682eed" -> null
+  - jenkins_master_public_ip  = "18.194.176.30" -> null
+  - jenkins_worker_private_ip = "10.0.2.223" -> null
+  - nat_gateway_id            = "nat-0a99ee037265209f4" -> null
+  - private_subnet_id         = "subnet-03f6773107e7586b6" -> null
+  - public_subnet_id          = "subnet-0a4b3d210dc0c99fc" -> null
+  - vpc_id                    = "vpc-05ee6ecdcd50ce7da" -> null
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+null_resource.generate_inventory: Destroying... [id=1614771428701799927]
+null_resource.generate_inventory: Destruction complete after 0s
+local_file.private_key: Destroying... [id=97b6400db33539a189cf106083abf820bca83732]
+local_file.inventory_worker: Destroying... [id=8bc6f957034ad183c6fd3a08ef8b20cdc15e4e3c]
+local_file.private_key: Destruction complete after 0s
+local_file.inventory_worker: Destruction complete after 0s
+aws_route_table_association.public_assoc: Destroying... [id=rtbassoc-00434d2aae6e329c1]
+aws_route_table_association.private_assoc: Destroying... [id=rtbassoc-02d059bf88fa1b2aa]
+aws_route.private_nat_access: Destroying... [id=r-rtb-0924ce5f3e6fe44571080289494]
+aws_security_group_rule.allow_ssh_internal: Destroying... [id=sgrule-1437078515]
+aws_route.public_internet_access: Destroying... [id=r-rtb-08daf7fd3136899531080289494]
+aws_instance.jenkins_master: Destroying... [id=i-0cc4d6e89a53b07a3]
+aws_instance.jenkins_worker: Destroying... [id=i-0e3952e7672581bf7]
+aws_route_table_association.public_assoc: Destruction complete after 0s
+aws_route_table_association.private_assoc: Destruction complete after 0s
+aws_security_group_rule.allow_ssh_internal: Destruction complete after 0s
+aws_route.private_nat_access: Destruction complete after 0s
+aws_route_table.private: Destroying... [id=rtb-0924ce5f3e6fe4457]
+aws_nat_gateway.nat: Destroying... [id=nat-0a99ee037265209f4]
+aws_route.public_internet_access: Destruction complete after 0s
+aws_internet_gateway.igw: Destroying... [id=igw-07bfa20a6ae682eed]
+aws_route_table.public: Destroying... [id=rtb-08daf7fd313689953]
+aws_route_table.private: Destruction complete after 1s
+aws_route_table.public: Destruction complete after 1s
+aws_instance.jenkins_worker: Still destroying... [id=i-0e3952e7672581bf7, 10s elapsed]
+aws_instance.jenkins_master: Still destroying... [id=i-0cc4d6e89a53b07a3, 10s elapsed]
+aws_nat_gateway.nat: Still destroying... [id=nat-0a99ee037265209f4, 10s elapsed]
+aws_internet_gateway.igw: Still destroying... [id=igw-07bfa20a6ae682eed, 10s elapsed]
+aws_instance.jenkins_worker: Still destroying... [id=i-0e3952e7672581bf7, 20s elapsed]
+aws_instance.jenkins_master: Still destroying... [id=i-0cc4d6e89a53b07a3, 20s elapsed]
+aws_nat_gateway.nat: Still destroying... [id=nat-0a99ee037265209f4, 20s elapsed]
+aws_internet_gateway.igw: Still destroying... [id=igw-07bfa20a6ae682eed, 20s elapsed]
+aws_instance.jenkins_worker: Still destroying... [id=i-0e3952e7672581bf7, 30s elapsed]
+aws_instance.jenkins_master: Still destroying... [id=i-0cc4d6e89a53b07a3, 30s elapsed]
+aws_nat_gateway.nat: Still destroying... [id=nat-0a99ee037265209f4, 30s elapsed]
+aws_instance.jenkins_master: Destruction complete after 30s
+aws_internet_gateway.igw: Still destroying... [id=igw-07bfa20a6ae682eed, 30s elapsed]
+aws_instance.jenkins_worker: Destruction complete after 31s
+aws_key_pair.jenkins_key: Destroying... [id=jenkins-key-arkadii]
+aws_subnet.private: Destroying... [id=subnet-03f6773107e7586b6]
+aws_security_group.jenkins_sg: Destroying... [id=sg-0ea9af2a7c2f30c71]
+aws_key_pair.jenkins_key: Destruction complete after 0s
+tls_private_key.jenkins: Destroying... [id=1a85f642119dca970ead472b4ce03bc98bdea2a2]
+tls_private_key.jenkins: Destruction complete after 0s
+aws_subnet.private: Destruction complete after 0s
+aws_security_group.jenkins_sg: Destruction complete after 0s
+aws_nat_gateway.nat: Still destroying... [id=nat-0a99ee037265209f4, 40s elapsed]
+aws_internet_gateway.igw: Still destroying... [id=igw-07bfa20a6ae682eed, 40s elapsed]
+aws_nat_gateway.nat: Still destroying... [id=nat-0a99ee037265209f4, 50s elapsed]
+aws_internet_gateway.igw: Still destroying... [id=igw-07bfa20a6ae682eed, 50s elapsed]
+aws_nat_gateway.nat: Still destroying... [id=nat-0a99ee037265209f4, 1m0s elapsed]
+aws_internet_gateway.igw: Still destroying... [id=igw-07bfa20a6ae682eed, 1m0s elapsed]
+aws_nat_gateway.nat: Destruction complete after 1m2s
+aws_subnet.public: Destroying... [id=subnet-0a4b3d210dc0c99fc]
+aws_eip.nat_eip: Destroying... [id=eipalloc-0106dd07bf6247815]
+aws_subnet.public: Destruction complete after 0s
+aws_eip.nat_eip: Destruction complete after 1s
+aws_internet_gateway.igw: Destruction complete after 1m8s
+aws_vpc.main: Destroying... [id=vpc-05ee6ecdcd50ce7da]
+aws_vpc.main: Destruction complete after 1s
+
+Destroy complete! Resources: 21 destroyed.

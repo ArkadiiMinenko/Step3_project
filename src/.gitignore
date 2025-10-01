@@ -1,0 +1,13 @@
+# === Terraform ===
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# === SSH Keys ===
+*.pem
+
+# === Ansible runtime ===
+*.retry
+
+.DS_Store
+.DS_Store/

@@ -1,0 +1,34 @@
+pipeline {
+    agent { label 'jenkins-worker' }
+
+    environment {
+        GIT_REPO = 'https://github.com/ArkadiiMinenko/DANIT.git'
+        GIT_BRANCH = 'main'
+        WORKDIR = "/home/vagrant/app"
+        GIT_CREDENTIALS = 'github-creds'
+    }
+
+    stages {
+        stage('Test GitHub Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: GIT_CREDENTIALS, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                        sh '''
+                            echo "Checking GitHub authentication..."
+                            git ls-remote https://$GIT_USER:$GIT_PASS@github.com/ArkadiiMinenko/DANIT.git
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "GitHub authentication successful."
+        }
+        failure {
+            echo "GitHub authentication failed. Check your credentials."
+        }
+    }
+}

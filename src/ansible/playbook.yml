@@ -1,0 +1,111 @@
+# === BLOCK 1 ===
+- name: Install Jenkins and configure Nginx Reverse Proxy
+  hosts: jenkins_master
+  become: true
+  vars:
+    jenkins_repo_url: "https://pkg.jenkins.io/redhat-stable/jenkins.repo"
+    jenkins_gpg_key: "https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key"
+
+  tasks:
+    - name: Enable nginx in amazon-linux-extras
+      shell: amazon-linux-extras enable nginx1
+      args:
+        creates: /etc/yum.repos.d/amzn2extra-nginx1.repo
+
+    - name: Install required packages
+      yum:
+        name:
+          - nginx
+          - java-17-amazon-corretto
+          - wget
+        state: present
+
+    - name: Add Jenkins repo
+      get_url:
+        url: "{{ jenkins_repo_url }}"
+        dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: Import GPG Jenkins key
+      rpm_key:
+        state: present
+        key: "{{ jenkins_gpg_key }}"
+
+    - name: Install Jenkins
+      yum:
+        name: jenkins
+        state: present
+        update_cache: true
+
+    - name: Start and enable Jenkins
+      service:
+        name: jenkins
+        state: started
+        enabled: true
+
+    - name: Configure Nginx reverse proxy for Jenkins
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/conf.d/jenkins.conf
+        mode: '0644'
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: true
+
+    - name: Copy SSH key to master (for connecting to worker)
+      copy:
+        src: files/jenkins-key-arkadii.pem
+        dest: /home/ec2-user/.ssh/jenkins-key-arkadii.pem
+        owner: ec2-user
+        group: ec2-user
+        mode: '0600'
+
+# === BLOCK 2 ===
+- name: Install Ansible on master
+  hosts: jenkins_master
+  become: true
+
+  tasks:
+    - name: Enable Ansible in amazon-linux-extras
+      shell: amazon-linux-extras enable ansible2
+      args:
+        creates: /etc/yum.repos.d/amzn2extra-ansible2.repo
+
+    - name: Install Ansible
+      yum:
+        name: ansible
+        state: present
+
+# === BLOCK 3 ===
+- name: Copy worker inventory and playbook to master
+  hosts: jenkins_master
+  become: true
+
+  tasks:
+    - name: Copy inventory_worker.ini to master
+      copy:
+        src: files/inventory_worker.ini
+        dest: /home/ec2-user/inventory_worker.ini
+        mode: '0644'
+        owner: ec2-user
+        group: ec2-user
+
+    - name: Copy playbook_worker.yml to master
+      copy:
+        src: templates/playbook_worker.yml
+        dest: /home/ec2-user/playbook_worker.yml
+        mode: '0644'
+        owner: ec2-user
+        group: ec2-user
+
+# === BLOCK 4 ===
+- name: Trigger Ansible playbook for Jenkins Worker from Master
+  hosts: jenkins_master
+  become: true
+
+  tasks:
+    - name: Run playbook to configure Jenkins worker from master
+      command: ansible-playbook -i /home/ec2-user/inventory_worker.ini /home/ec2-user/playbook_worker.yml
+      become_user: ec2-user

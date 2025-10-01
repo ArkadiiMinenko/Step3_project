@@ -1,0 +1,96 @@
+pipeline {
+    agent { label 'jenkins-worker' }
+
+    environment {
+        GIT_REPO = 'https://github.com/ArkadiiMinenko/DANIT.git'
+        GIT_BRANCH = 'main'
+        WORKDIR = "/home/ec2-user/app"
+        GIT_CREDENTIALS = 'github-creds'
+        DOCKER_HUB_CREDENTIALS = 'dockerhub-creds'
+        IMAGE_NAME = 'sterben007/step3final'
+        CONTAINER_NAME = 'step3-container'
+    }
+
+    stages {
+        stage('Clone Specific Folder') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: GIT_CREDENTIALS, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                        sh '''
+                            echo "Cloning only the 'forStep2' directory from the repository..."
+                            rm -rf $WORKDIR
+                            mkdir -p $WORKDIR
+                            cd $WORKDIR
+                            git init
+                            git remote add origin https://$GIT_USER:$GIT_PASS@github.com/ArkadiiMinenko/DANIT.git
+                            git sparse-checkout init --cone
+                            git sparse-checkout set forStep2
+                            git pull origin $GIT_BRANCH
+                            ls -la $WORKDIR/forStep2
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo "Building Docker Image..."
+                    sh "cd $WORKDIR/forStep2 && docker build -t $IMAGE_NAME ."
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    echo "Running Tests..."
+                    def exitCode = sh(script: "docker run --rm $IMAGE_NAME test", returnStatus: true)
+                    if (exitCode != 0) {
+                        error "Tests failed!"
+                    }
+                }
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh '''
+                            echo "Logging in to Docker Hub..."
+                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                            docker push $IMAGE_NAME:latest
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Container') {
+            steps {
+                script {
+                    echo "Deploying Docker Container..."
+                    sh '''
+                        echo "Stopping and removing any existing container..."
+                        docker stop $CONTAINER_NAME || true
+                        docker rm $CONTAINER_NAME || true
+
+                        echo "Running new container..."
+                        docker run -d --name ${CONTAINER_NAME} -p 80:80 -e PORT=80 ${IMAGE_NAME}
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline completed successfully."
+        }
+        failure {
+            echo "Pipeline failed. Check the logs."
+        }
+    }
+}

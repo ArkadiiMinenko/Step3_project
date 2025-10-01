@@ -1,0 +1,31 @@
+- name: Install Java, Docker and Git on Jenkins Worker
+  hosts: jenkins_worker
+  become: true
+
+  tasks:
+    - name: Install Java 17 Amazon Corretto directly
+      yum:
+        name: java-17-amazon-corretto
+        state: present
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add ec2-user to docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+
+    - name: Install Git
+      yum:
+        name: git
+        state: present
